@@ -135,9 +135,6 @@ def run(lr, train_loader, val_loader, test_loader, predict_loader = None,
                     values = values.float().to(device)
                     optimizer.zero_grad() 
                     outputs = model(inputs) 
-                    if i == 0:
-                        print('outputs', outputs)
-                        print('values', values)
                     batch_loss = criterion(outputs, values)
                     batch_loss.backward() 
                     optimizer.step() 
