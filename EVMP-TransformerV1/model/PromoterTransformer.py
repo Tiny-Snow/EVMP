@@ -14,8 +14,8 @@ class BasePositionalEncoding(nn.Module):
     Base Promoter Positional Encoding for BaseTransformer
     
     Args:
-        d_model: base nucleotide embedding size
-        seq_len: max length of promoter
+        d_model         base nucleotide embedding size
+        seq_len         max length of promoter
     '''
     def __init__(self, d_model, seq_len, dropout = 0.1):
         super(BasePositionalEncoding, self).__init__()
@@ -43,9 +43,9 @@ class VarPositionalEncoding(nn.Module):
     Variation Positional Encoding for VarTransformer
     
     Args:
-        d_model: var embedding size
-        num_var: length of var sequence
-        seq_len: max length of promoter
+        d_model         var embedding size
+        num_var         length of var sequence
+        seq_len         max length of promoter
     '''
     def __init__(self, d_model, num_var, seq_len, dropout = 0.1):
         super(VarPositionalEncoding, self).__init__()

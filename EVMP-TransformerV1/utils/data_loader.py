@@ -22,12 +22,12 @@ class VarPromoterDataset(Dataset):
     Args:
         bases               array of base promoter (one-hot encode)
         vars                k-mer of variant subsequence
-        indicex:            index of variations
+        indices             index of variations
         acts                promoter fluorescence intensity
 
     Dataset item:
-        with act:           ({'base': base, 'var': var, 'index': index}, act)
-        no act:             {'base': base, 'var': var, 'index': index}
+        with act            ({'base': base, 'var': var, 'index': index}, act)
+        no act              {'base': base, 'var': var, 'index': index}
     '''
     def __init__(self, bases, vars, indices, acts = None):
         super(Dataset, self).__init__()

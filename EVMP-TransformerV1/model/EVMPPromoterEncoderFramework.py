@@ -25,16 +25,20 @@ INF = float('inf')
 
 class EVMPPromoterEncoderFramework(nn.Module):
     '''
-    Extended Vision Mutation Priority Promoter Encoder Framework
+    Extended Vision Mutation Priority Promoter Encoder Framework (Transformer Version 1)
 
     Args:
         device              device of model
-        ......
-        dropout             dropout ratio of linear layer
-        var_layers          number of var LSTM layers
+        k_mer               k-mer of extended vision variation
+        seq_len             max length of base promoter
+        num_var             max number of variations
+        base_layers         number of base promoter encoder layers
+        base_embed_size     embedding size of one nucleotide in base promoter
+        var_layers          number of variation encoder layers
+        var_embed_size      embedding size of each mer in each variation
     
     '''
-    def __init__(self, device, k_mer, seq_len, num_var, dropout = 0.5, base_layers = 6, base_embed_size = 32, var_layers = 6, var_embed_size = 8):
+    def __init__(self, device, k_mer, seq_len, num_var, base_layers = 6, base_embed_size = 32, var_layers = 6, var_embed_size = 8):
         super(EVMPPromoterEncoderFramework, self).__init__()
         # get device
         self.device = device
@@ -63,8 +67,6 @@ class EVMPPromoterEncoderFramework(nn.Module):
         
         # base + var representation FC
         self.rep_size = self.base_embed_size * seq_len + self.var_embed_size * num_var
-        self.active = nn.ReLU()
-        self.drop = nn.Dropout(p = dropout)
         # output
         self.output = nn.Linear(self.rep_size, 1)
 
@@ -80,13 +82,13 @@ class EVMPPromoterEncoderFramework(nn.Module):
         base, var, index = \
             x['base'].float().to(self.device), x['var'].float().to(self.device), x['index'].float().to(self.device)
         
-        # base: [bacth_size, seq_len, 5] ->  [bacth_size, base_embed_size]  
+        # base: [bacth_size, seq_len, 5] ->  [bacth_size, seq_len, base_embed_size]  
         base = self.base_pos(base)
         base = torch.cat([base, torch.zeros(list(base.size()[: - 1]) + [self.base_embed_size - base.size(-1)]).to(self.device)], dim = -1)
         base_embedding = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size(0), -1])
         
-        # var: [bacth_size, num_var, k_mer * 5] -> [bacth_size, var_embed_size * num_var]
+        # var: [bacth_size, num_var, k_mer * 5] -> [bacth_size, num_var, var_embed_size * num_var]
         var = self.var_pos(var, index)
         var = torch.cat([var, torch.zeros(list(var.size()[: -1]) + [self.var_embed_size - var.size(-1)]).to(self.device)], dim = -1)
         var_embedding = self.var_embed(var)
