@@ -50,4 +50,4 @@ test_data_path = data_root + '/test_promoter_nowild.csv'                        
 test_result_path = BASE_DIR + '/output/test_results_{}.csv'.format(info)        # save test result path
 if_predict = False                                                              # if predict
 predict_data_path = data_root + '/predict_promoter.csv'                         # predict data 
-predict_result_path = data_root + '/output/predict_results_{}.csv'.format(info) # save predict result path
+predict_result_path = BASE_DIR + '/output/predict_results_{}.csv'.format(info)  # save predict result path

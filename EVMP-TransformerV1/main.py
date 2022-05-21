@@ -25,4 +25,7 @@ if __name__ == '__main__':
         log('>>>>> Not use predict set')
 
     # train
-    run(train_loader, val_loader, test_loader)
+    if not cfg.if_predict:
+        run(train_loader, val_loader, test_loader)
+    else:
+        run(train_loader, val_loader, test_loader, predict_loader)
