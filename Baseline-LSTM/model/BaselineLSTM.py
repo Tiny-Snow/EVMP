@@ -1,5 +1,5 @@
 # -*- coding:UTF-8 -*-
-# Author:   Tiny Snow
+# Author:   Raffica
 # Project:  EVMP BASELINES -- LSTM
 # Time:     2022.7.9
 
