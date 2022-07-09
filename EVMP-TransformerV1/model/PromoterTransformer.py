@@ -3,7 +3,6 @@
 # Project:  Extended Vision Mutation Priority Promoter Encoder Framework (Transformer Version 1)
 # Time:     2022.5.18
 
-
 import torch
 import torch.nn as nn
 import math

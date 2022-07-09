@@ -3,7 +3,6 @@
 # Project:  Extended Vision Mutation Priority Promoter Encoder Framework (LSTM)
 # Time:     2022.5.7
 
-
 import os
 import config as cfg
 

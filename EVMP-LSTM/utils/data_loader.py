@@ -3,7 +3,6 @@
 # Project:  Extended Vision Mutation Priority Promoter Encoder Framework (LSTM)
 # Time:     2022.5.7
 
-
 import pandas as pd
 import numpy as np
 import torch
