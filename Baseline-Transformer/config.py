@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 #------------------------ info ------------------------#
-info = 'test'
+info = ''
 pretrain_info = ''
 
 #------------------------ data ------------------------#
