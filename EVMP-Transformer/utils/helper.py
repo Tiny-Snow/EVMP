@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 # Author:   Tiny Snow
-# Project:  Extended Vision Mutation Priority Promoter Encoder Framework (Transformer Version 1)
+# Project:  Extended Vision Mutation Priority Promoter Encoder Framework (Transformer)
 # Time:     2022.5.18
 
 import os

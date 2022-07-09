@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 # Author:   Tiny Snow
-# Project:  Extended Vision Mutation Priority Promoter Encoder Framework (Transformer Version 1)
+# Project:  Extended Vision Mutation Priority Promoter Encoder Framework (Transformer)
 # Time:     2022.5.18
 
 import os
@@ -26,7 +26,7 @@ INF = float('inf')
 
 class EVMPPromoterEncoderFramework(nn.Module):
     '''
-    Extended Vision Mutation Priority Promoter Encoder Framework (Transformer Version 1)
+    Extended Vision Mutation Priority Promoter Encoder Framework (Transformer)
 
     Args:
         device              device of model
