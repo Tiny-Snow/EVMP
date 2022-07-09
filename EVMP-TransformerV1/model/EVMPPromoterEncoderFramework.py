@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import csv
 
 import config as cfg
+from tqdm import tqdm
 from utils.helper import Signal, log
 
 INF = float('inf')
@@ -106,7 +107,8 @@ def train(device, model, train_loader, criterion, optimizer):
     '''Train model, return train loss'''
     train_loss = 0.0
     model.train()       # set the model to training mode
-    for i, data in enumerate(train_loader):
+    bar = tqdm(enumerate(train_loader), desc = 'Train', total = len(train_loader))
+    for i, data in bar:
         inputs, values = data
         values = values.float().to(device)
         optimizer.zero_grad() 
@@ -115,6 +117,7 @@ def train(device, model, train_loader, criterion, optimizer):
         batch_loss.backward() 
         optimizer.step() 
         train_loss += batch_loss.item()
+        bar.set_description('Train Loss: {:.4f}'.format(train_loss / (i + 1)))
     return train_loss
 
 
