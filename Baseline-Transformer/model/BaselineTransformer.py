@@ -232,7 +232,6 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     # model
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = BaselineTransformer(device = device, seq_len = cfg.seq_len).to(device)
-    model.device = device
     # signal
     signal = Signal(cfg.signal_file)
     # criterion
