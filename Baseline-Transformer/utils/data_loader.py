@@ -45,8 +45,8 @@ def load_data():
     Load train/val/test/predict data
     '''
     # load train data and test data
-    synthetic_data, test_data = [], []
-    for dataset_pair in [(cfg.synthetic_data_path, synthetic_data), (cfg.test_data_path, test_data)]:
+    synthetic_data = []
+    for dataset_pair in [(cfg.synthetic_data_path, synthetic_data)]:
         dataset, arr = dataset_pair[0], dataset_pair[1]
         with open(dataset, 'r') as f:
             train_data = csv.reader(f)
@@ -61,6 +61,5 @@ def load_data():
     val_data = synthetic_data[: int(len(synthetic_data) * cfg.val_ratio)]
     train_loader = DataLoader(train_data, batch_size = cfg.batch_size, shuffle = True)
     val_loader = DataLoader(val_data, batch_size = 1, shuffle = False)
-    test_loader = DataLoader(test_data, batch_size = 1, shuffle = False)
 
-    return train_loader, val_loader, test_loader, None
+    return train_loader, val_loader, None, None

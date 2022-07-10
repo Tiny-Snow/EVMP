@@ -1,0 +1,116 @@
+>>>>> Loading data ...
+>>>>> Size of training data: 3572
+>>>>> Size of training set: 3216
+>>>>> Size of validation set: 356
+>>>>> Not use test set
+>>>>> Not use predict set
+>>>>> DEVICE: cuda
+>>>>> Start  Training...
+[001/10000] Train MAE Loss: 0.575527 | Val MAE loss: 0.499039
+>>>>> Saving model with loss 0.499039
+Learning rate -> 1.000000e-04
+[002/10000] Train MAE Loss: 0.530047 | Val MAE loss: 0.486610
+>>>>> Saving model with loss 0.486610
+Learning rate -> 1.000000e-04
+[003/10000] Train MAE Loss: 0.485626 | Val MAE loss: 0.403605
+>>>>> Saving model with loss 0.403605
+Learning rate -> 1.000000e-04
+[004/10000] Train MAE Loss: 0.436560 | Val MAE loss: 0.371371
+>>>>> Saving model with loss 0.371371
+Learning rate -> 1.000000e-04
+[005/10000] Train MAE Loss: 0.428456 | Val MAE loss: 0.359413
+>>>>> Saving model with loss 0.359413
+Learning rate -> 1.000000e-04
+[006/10000] Train MAE Loss: 0.416223 | Val MAE loss: 0.406257
+Learning rate -> 1.000000e-04
+[007/10000] Train MAE Loss: 0.390597 | Val MAE loss: 0.328266
+>>>>> Saving model with loss 0.328266
+Learning rate -> 1.000000e-04
+[008/10000] Train MAE Loss: 0.386963 | Val MAE loss: 0.344098
+Learning rate -> 1.000000e-04
+[009/10000] Train MAE Loss: 0.377282 | Val MAE loss: 0.377891
+Learning rate -> 1.000000e-04
+[010/10000] Train MAE Loss: 0.370997 | Val MAE loss: 0.326062
+>>>>> Saving model with loss 0.326062
+Learning rate -> 1.000000e-04
+[011/10000] Train MAE Loss: 0.372813 | Val MAE loss: 0.327451
+Learning rate -> 1.000000e-04
+[012/10000] Train MAE Loss: 0.375157 | Val MAE loss: 0.336629
+Learning rate -> 1.000000e-04
+[013/10000] Train MAE Loss: 0.369058 | Val MAE loss: 0.314007
+>>>>> Saving model with loss 0.314007
+Learning rate -> 1.000000e-04
+[014/10000] Train MAE Loss: 0.352622 | Val MAE loss: 0.322827
+Learning rate -> 1.000000e-04
+[015/10000] Train MAE Loss: 0.375466 | Val MAE loss: 0.306260
+>>>>> Saving model with loss 0.306260
+Learning rate -> 1.000000e-04
+[016/10000] Train MAE Loss: 0.361909 | Val MAE loss: 0.321195
+Learning rate -> 1.000000e-04
+[017/10000] Train MAE Loss: 0.354491 | Val MAE loss: 0.375700
+Learning rate -> 1.000000e-04
+[018/10000] Train MAE Loss: 0.354905 | Val MAE loss: 0.304267
+>>>>> Saving model with loss 0.304267
+Learning rate -> 1.000000e-04
+[019/10000] Train MAE Loss: 0.350993 | Val MAE loss: 0.391127
+Learning rate -> 1.000000e-04
+[020/10000] Train MAE Loss: 0.352775 | Val MAE loss: 0.333827
+Learning rate -> 1.000000e-05
+[021/10000] Train MAE Loss: 0.331042 | Val MAE loss: 0.300621
+>>>>> Saving model with loss 0.300621
+Learning rate -> 1.000000e-05
+[022/10000] Train MAE Loss: 0.322429 | Val MAE loss: 0.293290
+>>>>> Saving model with loss 0.293290
+Learning rate -> 1.000000e-05
+[023/10000] Train MAE Loss: 0.324363 | Val MAE loss: 0.292090
+>>>>> Saving model with loss 0.292090
+Learning rate -> 1.000000e-05
+[024/10000] Train MAE Loss: 0.316553 | Val MAE loss: 0.310680
+Learning rate -> 1.000000e-05
+[025/10000] Train MAE Loss: 0.322736 | Val MAE loss: 0.299720
+Learning rate -> 1.000000e-05
+[026/10000] Train MAE Loss: 0.316780 | Val MAE loss: 0.295357
+Learning rate -> 1.000000e-05
+[027/10000] Train MAE Loss: 0.315950 | Val MAE loss: 0.291348
+>>>>> Saving model with loss 0.291348
+Learning rate -> 1.000000e-05
+[028/10000] Train MAE Loss: 0.317258 | Val MAE loss: 0.348932
+Learning rate -> 1.000000e-05
+[029/10000] Train MAE Loss: 0.321564 | Val MAE loss: 0.293582
+Learning rate -> 1.000000e-05
+[030/10000] Train MAE Loss: 0.316622 | Val MAE loss: 0.288594
+>>>>> Saving model with loss 0.288594
+Learning rate -> 1.000000e-05
+[031/10000] Train MAE Loss: 0.312120 | Val MAE loss: 0.289406
+Learning rate -> 1.000000e-05
+[032/10000] Train MAE Loss: 0.315979 | Val MAE loss: 0.293878
+Learning rate -> 1.000000e-05
+[033/10000] Train MAE Loss: 0.313077 | Val MAE loss: 0.286025
+>>>>> Saving model with loss 0.286025
+Learning rate -> 1.000000e-05
+[034/10000] Train MAE Loss: 0.315621 | Val MAE loss: 0.286265
+Learning rate -> 1.000000e-05
+[035/10000] Train MAE Loss: 0.311869 | Val MAE loss: 0.288204
+Learning rate -> 1.000000e-05
+[036/10000] Train MAE Loss: 0.312312 | Val MAE loss: 0.288155
+Learning rate -> 1.000000e-05
+[037/10000] Train MAE Loss: 0.315017 | Val MAE loss: 0.283515
+>>>>> Saving model with loss 0.283515
+Learning rate -> 1.000000e-05
+[038/10000] Train MAE Loss: 0.312634 | Val MAE loss: 0.294033
+Learning rate -> 1.000000e-05
+[039/10000] Train MAE Loss: 0.308793 | Val MAE loss: 0.284359
+Learning rate -> 1.000000e-05
+[040/10000] Train MAE Loss: 0.309259 | Val MAE loss: 0.283923
+Learning rate -> 1.000000e-06
+[041/10000] Train MAE Loss: 0.308371 | Val MAE loss: 0.286142
+Learning rate -> 1.000000e-06
+[042/10000] Train MAE Loss: 0.308282 | Val MAE loss: 0.286939
+Learning rate -> 1.000000e-06
+[043/10000] Train MAE Loss: 0.312625 | Val MAE loss: 0.287573
+Learning rate -> 1.000000e-06
+>>>>> End with signal!
+Final Model: 
+    train MAE: 0.280887, train R2: 0.54
+    valid MAE: 0.287573, valid R2: 0.54
+>>>>> Training Complete! Start Testing...
