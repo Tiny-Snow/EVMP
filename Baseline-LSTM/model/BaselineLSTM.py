@@ -27,6 +27,7 @@ INF = float('inf')
 class BaselineLSTM(nn.Module):
     '''
     EVMP Baseline: LSTM
+    
     Args:
         device              device of model
         num_sensors         number of features
