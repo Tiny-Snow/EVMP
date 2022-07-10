@@ -36,11 +36,13 @@ save_root = BASE_DIR + '/save'
 log_file = save_root + '/log_{}.txt'.format(info)           # save log file path
 model_path = save_root + '/model_{}.ckpt'.format(info)      # save model path
 signal_file = BASE_DIR + '/signal.txt'                      # singal file path
+save_train = BASE_DIR + '/output/LSTM.pdf'.format(info)     # save train/valid figure path
 save_fig = save_root + '/test_result_{}.png'.format(info)   # save test R2 figure path
 
 
 #------------------------ test ------------------------#
-test_data_path = data_root + '/test_promoter_nowild.csv'                               # test data
+have_test = False                                                               # if do test
+test_data_path = data_root + '/test_promoter_nowild.csv'                        # test data
 test_result_path = BASE_DIR + '/output/test_results_{}.csv'.format(info)        # save test result path
 if_predict = False                                                              # if predict
 predict_data_path = data_root + '/predict_promoter.csv'                         # predict data 

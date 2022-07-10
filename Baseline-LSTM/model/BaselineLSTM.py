@@ -12,7 +12,8 @@ from torch.optim.lr_scheduler import StepLR, MultiStepLR
 
 import pandas as pd
 import numpy as np
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_absolute_error
+from scipy import optimize
 import matplotlib.pyplot as plt
 import csv
 
@@ -48,6 +49,9 @@ class BaselineLSTM(nn.Module):
         self.linear = nn.Linear(in_features = self.hidden_units, out_features = 1)
 
     def forward(self, x):
+        ''' 
+        Given input x, compute output of the network 
+        '''
         batch_size = x.shape[0]
         h0 = torch.zeros(self.num_layers, batch_size, self.hidden_units).requires_grad_().to(self.device)
         c0 = torch.zeros(self.num_layers, batch_size, self.hidden_units).requires_grad_().to(self.device)
@@ -88,6 +92,21 @@ def valid(device, model, val_loader, criterion, optimizer):
             batch_loss = criterion(outputs, values) 
             val_loss += batch_loss.item()
     return val_loss
+
+
+def _test(device, model, test_loader):
+    '''Test model, return true value and pred value'''
+    y_true, y_pred = [], []
+    model.eval()        # set the model to evaluation mode
+    with torch.no_grad():
+        for data, value in test_loader:
+            inputs = data
+            outputs = model(inputs) 
+            for y in value.cpu().numpy():
+                y_true.append(y)
+            for y in outputs.cpu().numpy():
+                y_pred.append(y)
+    return y_true, y_pred
 
 
 def test(device, model, test_loader, criterion):
@@ -157,6 +176,40 @@ def predict(device, model, predict_loader):
             writer.writerow([i, y_predict]) 
 
 
+def line(x, A, B):
+    return A * x + B
+
+def output(y_train, pred_train, y_test, pred_test, file_name = 'LSTM'):
+    '''Output the prediction result of the train / valid'''
+    score_train_MAE = mean_absolute_error(y_train, pred_train)
+    score_train_r2 = r2_score(y_train, pred_train)
+    score_test_MAE = mean_absolute_error(y_test, pred_test)
+    score_test_r2 = r2_score(y_test, pred_test)
+
+    log("Final Model: ")
+    log("    train MAE: {:3.6f}, train R2: {:.2f}".format(score_train_MAE, score_train_r2))
+    log("    valid MAE: {:3.6f}, valid R2: {:.2f}".format(score_test_MAE, score_test_r2))
+    
+    x = np.arange(min(y_train), max(y_train), 0.01)
+    A1, B1 = optimize.curve_fit(line, y_test, pred_test)[0]
+    y1 = A1 * x + B1
+    
+    plt.figure()
+    plt.grid()
+    plt.plot(x, y1, c = "red", linewidth = 3.0)
+    plt.title(file_name)
+    plt.scatter(y_train, pred_train, s = 3, c = "silver", marker = 'o', 
+        label = "Train: $MAE$ = {:.2f}, $R^2$ = {:.2f}".format(score_train_MAE, score_train_r2))
+    plt.scatter(y_test, pred_test, s = 5, c = "darkgreen", marker = 'o', 
+        label = "Valid: $MAE$ = {:.2f}, $R^2$ = {:.2f}".format(score_test_MAE, score_test_r2))
+    plt.xlim(1, 5)
+    plt.ylim(1, 5)
+    plt.xlabel('True Value')
+    plt.ylabel('Predict Value')
+    plt.legend()
+    plt.savefig(cfg.save_train)
+
+
 def run(train_loader, val_loader, test_loader, predict_loader = None):
     '''
     Train the model and test the data
@@ -220,6 +273,11 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
             torch.save(model.state_dict(), cfg.model_path)
             log('>>>>> Saving model at last epoch')
 
+    # output
+    y_train, pred_train = _test(device, model, train_loader)
+    y_test, pred_test = _test(device, model, val_loader)
+    output(y_train, pred_train, y_test, pred_test)
+
     log('>>>>> Training Complete! Start Testing...')
 
     # create model and load weights from best checkpoint
@@ -229,7 +287,8 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
         model.load_state_dict(torch.load(cfg.pretrain_model_path))
 
     # test
-    test(device, model, test_loader, criterion)
+    if cfg.have_test:
+        test(device, model, test_loader, criterion)
 
     # predict
     if cfg.if_predict:
