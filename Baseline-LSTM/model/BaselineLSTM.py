@@ -219,7 +219,6 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = BaselineLSTM(device = device, num_sensors = 5, hidden_units = 1024).to(device)
 
-    model.device = device
     # signal
     signal = Signal(cfg.signal_file)
     # criterion
