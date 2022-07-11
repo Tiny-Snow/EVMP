@@ -51,7 +51,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         self.base_layers = base_layers
         self.base_embed = nn.LSTM(5, base_embed_size, num_layers = base_layers, bidirectional = False, dropout = LSTM_dropout, batch_first = True)
         # variation embedding
-        self.var_embed = nn.Embedding(cfg.max_wild * (cfg.max_base_len * (5 ** cfg.mer) + 1), var_embed_size)
+        self.var_embed = nn.Embedding(cfg.max_wild * (cfg.seq_len * (5 ** cfg.mer) + 1), var_embed_size)
         # variation LSTM representation
         self.var_units = var_units
         self.var_layers = var_layers

@@ -64,7 +64,7 @@ def onehot_encode(promoter):
     '''
     vocab = {'B': 0, 'A': 1, 'G': 2, 'C': 3, 'T': 4}
     onehots = []
-    for i in range(cfg.max_base_len):
+    for i in range(cfg.seq_len):
         onehot = []
         if i < len(promoter):
             onehots.append(one_hot(vocab[promoter[i]], 5))
@@ -81,13 +81,13 @@ def var_encode(wild_index, mother_promoter, origin_promoter):
     '''
     vocab = {'B': 0, 'A': 1, 'G': 2, 'C': 3, 'T': 4}
     vars = []
-    origin_promoter += 'B' * (cfg.max_base_len - len(origin_promoter))
-    mother_promoter += 'B' * (cfg.max_base_len - len(mother_promoter))
-    for i in range(cfg.max_base_len):
+    origin_promoter += 'B' * (cfg.seq_len - len(origin_promoter))
+    mother_promoter += 'B' * (cfg.seq_len - len(mother_promoter))
+    for i in range(cfg.seq_len):
         if origin_promoter[i] != mother_promoter[i]:
-            diff_mer = [vocab[origin_promoter[i]] if k >= 0 and k < cfg.max_base_len else 0 
+            diff_mer = [vocab[origin_promoter[i]] if k >= 0 and k < cfg.seq_len else 0 
                             for k in range(i - ((cfg.mer - 1) // 2), i + (cfg.mer - ((cfg.mer - 1) // 2)))]
-            encode = wild_index * (cfg.max_base_len * (5 ** cfg.mer) + 1) +  i * (5 ** cfg.mer)
+            encode = wild_index * (cfg.seq_len * (5 ** cfg.mer) + 1) +  i * (5 ** cfg.mer)
             for k in range(cfg.mer):
                 encode += (5 ** k) * diff_mer[k]
             vars.append(encode + 1)
