@@ -1,5 +1,5 @@
 # -*- coding:UTF-8 -*-
-# Author:   Raffica
+# Author:   Tiny Snow
 # Project:  EVMP BASELINES -- 1D CNN (Layer 50 + ResNet)
 # Time:     2022.7.9
 
