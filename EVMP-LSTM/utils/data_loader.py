@@ -91,8 +91,8 @@ def var_encode(wild_index, mother_promoter, origin_promoter):
             for k in range(cfg.mer):
                 encode += (5 ** k) * diff_mer[k]
             vars.append(encode + 1)
-    if len(vars) <= cfg.max_variation:
-        vars += [0] * (cfg.max_variation - len(vars))
+    if len(vars) <= cfg.num_var:
+        vars += [0] * (cfg.num_var - len(vars))
         return np.array(vars)
     return None
 

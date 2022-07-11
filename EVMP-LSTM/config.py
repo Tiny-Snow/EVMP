@@ -16,9 +16,9 @@ data_root = BASE_DIR + '/data/'
 wild_data_path = data_root + 'wild_promoter_nowild.csv'         # wild promoter data
 synthetic_data_path = data_root + 'synthetic_promoter.csv'      # synthetic promoter data
 val_ratio = 0.10        # validation set ratio (for synthetic promoter)
-seq_len = 85       # max base promoter size
+seq_len = 85            # max base promoter size
 max_wild = 1            # max number of wild promoters
-max_variation = 10      # max variation size
+num_var = 10      # max variation size
 mer = 5                 # k-mer for Extended Vision
 
 #------------------------ train ------------------------#

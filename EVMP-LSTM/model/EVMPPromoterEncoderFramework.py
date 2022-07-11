@@ -76,7 +76,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         # base: [bacth_size, seq_len, 5] ->  [bacth_size, base_embed_size]   
         o, (h, base_embedding) = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size()[1], -1])
-        # var: [bacth_size, seq_len] (index of var) -> [bacth_size, max_variation, var_embed_size]
+        # var: [bacth_size, seq_len] (index of var) -> [bacth_size, num_var, var_embed_size]
         var = self.var_embed(var.long())
         _, (hn, cn) = self.varLSTM(var)
         var_outs = []
