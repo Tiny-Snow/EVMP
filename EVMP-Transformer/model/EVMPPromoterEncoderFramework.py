@@ -9,11 +9,12 @@ import math
 import torch
 import torch.nn as nn
 from .PromoterTransformer import BasePositionalEncoding, VarPositionalEncoding
-from torch.optim.lr_scheduler import StepLR, MultiStepLR
+from utils.CycleLR import CycleDecayLR
 
 import pandas as pd
 import numpy as np
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_absolute_error
+from scipy import optimize
 import matplotlib.pyplot as plt
 import csv
 
@@ -30,7 +31,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
 
     Args:
         device              device of model
-        k_mer               k-mer of extended vision variation
+        mer                 k-mer of extended vision variation
         seq_len             max length of base promoter
         num_var             max number of variations
         base_layers         number of base promoter encoder layers
@@ -39,7 +40,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         var_embed_size      embedding size of each mer in each variation
     
     '''
-    def __init__(self, device, k_mer, seq_len, num_var, base_layers = 6, base_embed_size = 32, var_layers = 6, var_embed_size = 8):
+    def __init__(self, device, mer, seq_len, num_var, base_layers = 6, base_embed_size = 32, var_layers = 6, var_embed_size = 8):
         super(EVMPPromoterEncoderFramework, self).__init__()
         # get device
         self.device = device
@@ -49,7 +50,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         self.vocab = {'B': 0, 'A': 1, 'G': 2, 'C': 3, 'T': 4}
         self.vocab_size = len(self.vocab)
         self.seq_len = seq_len
-        self.k_mer = k_mer
+        self.mer = mer
         self.num_var = num_var
 
         # base embedding
@@ -60,9 +61,9 @@ class EVMPPromoterEncoderFramework(nn.Module):
         self.base_embed = nn.TransformerEncoder(self.base_encoder_layer, base_layers)
 
         # variation embedding
-        self.var_embed_size = var_embed_size * k_mer
+        self.var_embed_size = var_embed_size * mer
         self.var_layers = var_layers
-        self.var_pos = VarPositionalEncoding(d_model = self.vocab_size * k_mer, num_var = num_var, seq_len = seq_len)
+        self.var_pos = VarPositionalEncoding(d_model = self.vocab_size * mer, num_var = num_var, seq_len = seq_len)
         self.var_encoder_layer = nn.TransformerEncoderLayer(d_model = self.var_embed_size, nhead = 8, dim_feedforward = 2048, batch_first = True) 
         self.var_embed = nn.TransformerEncoder(self.var_encoder_layer, var_layers)
         
@@ -89,7 +90,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         base_embedding = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size(0), -1])
         
-        # var: [bacth_size, num_var, k_mer * 5] -> [bacth_size, num_var, var_embed_size * num_var]
+        # var: [bacth_size, num_var, mer * 5] -> [bacth_size, num_var, var_embed_size * num_var]
         var = self.var_pos(var, index)
         var = torch.cat([var, torch.zeros(list(var.size()[: -1]) + [self.var_embed_size - var.size(-1)]).to(self.device)], dim = -1)
         var_embedding = self.var_embed(var)
@@ -135,6 +136,21 @@ def valid(device, model, val_loader, criterion, optimizer):
     return val_loss
 
 
+def _test(device, model, test_loader):
+    '''Test model, return true value and pred value'''
+    y_true, y_pred = [], []
+    model.eval()        # set the model to evaluation mode
+    with torch.no_grad():
+        for data, value in test_loader:
+            inputs = data
+            outputs = model(inputs) 
+            for y in value.cpu().numpy():
+                y_true.append(y)
+            for y in outputs.cpu().numpy():
+                y_pred.append(y)
+    return y_true, y_pred
+
+
 def test(device, model, test_loader, criterion):
     '''Test model, save MAE and R2'''
     test_predict = []
@@ -148,7 +164,7 @@ def test(device, model, test_loader, criterion):
                 test_predict.append([math.pow(10, y), math.pow(10, value)])
                 test_predict_norm.append([y, value])
     test_predict = torch.Tensor(np.array(test_predict))
-    test_predict_norm = torch.Tensor(np.array(test_predict_norm))
+    test_predict_norm = torch.Tensor(np.array(test_predict_norm, dtype = np.float32))
     # loss
     loss = criterion(test_predict[:, 0], test_predict[:, 1]).item()
     loss_norm = criterion(test_predict_norm[:, 0], test_predict_norm[:, 1]).item()
@@ -202,13 +218,47 @@ def predict(device, model, predict_loader):
             writer.writerow([i, y_predict]) 
 
 
+def line(x, A, B):
+    return A * x + B
+
+def output(y_train, pred_train, y_test, pred_test, file_name = 'EVMP-Transformer'):
+    '''Output the prediction result of the train / valid'''
+    score_train_MAE = mean_absolute_error(y_train, pred_train)
+    score_train_r2 = r2_score(y_train, pred_train)
+    score_test_MAE = mean_absolute_error(y_test, pred_test)
+    score_test_r2 = r2_score(y_test, pred_test)
+
+    log("Final Model: ")
+    log("    train MAE: {:3.6f}, train R2: {:.2f}".format(score_train_MAE, score_train_r2))
+    log("    valid MAE: {:3.6f}, valid R2: {:.2f}".format(score_test_MAE, score_test_r2))
+    
+    x = np.arange(min(y_train), max(y_train), 0.01)
+    A1, B1 = optimize.curve_fit(line, y_test, pred_test)[0]
+    y1 = A1 * x + B1
+    
+    plt.figure()
+    plt.grid()
+    plt.plot(x, y1, c = "red", linewidth = 3.0)
+    plt.title(file_name)
+    plt.scatter(y_train, pred_train, s = 3, c = "silver", marker = 'o', 
+        label = "Train: $MAE$ = {:.2f}, $R^2$ = {:.2f}".format(score_train_MAE, score_train_r2))
+    plt.scatter(y_test, pred_test, s = 5, c = "darkgreen", marker = 'o', 
+        label = "Valid: $MAE$ = {:.2f}, $R^2$ = {:.2f}".format(score_test_MAE, score_test_r2))
+    plt.xlim(1, 5)
+    plt.ylim(1, 5)
+    plt.xlabel('True Value')
+    plt.ylabel('Predict Value')
+    plt.legend()
+    plt.savefig(cfg.save_train)
+
+
 def run(train_loader, val_loader, test_loader, predict_loader = None):
     '''
     Train the model and test the data
     '''
     # model
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = EVMPPromoterEncoderFramework(device = device, k_mer = cfg.k_mer, seq_len = cfg.seq_len, num_var = cfg.num_var).to(device)
+    model = EVMPPromoterEncoderFramework(device = device, mer = cfg.mer, seq_len = cfg.seq_len, num_var = cfg.num_var).to(device)
     model.device = device
     # signal
     signal = Signal(cfg.signal_file)
@@ -217,15 +267,7 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     # optimizer
     optimizer = torch.optim.Adam(model.parameters(), lr = cfg.lr, weight_decay = cfg.weight_decay)
     # lr scheduler
-    # scheduler = StepLR(optimizer, cfg.LRstep_size, cfg.LRgamma)
-    now_epoch = cfg.LRstep_size
-    eopch_step = cfg.LRstep_size
-    milestones = []
-    while now_epoch <= cfg.num_epoch:
-        milestones.append(now_epoch)
-        eopch_step = int(eopch_step * cfg.LRstep_alpha)
-        now_epoch += eopch_step
-    scheduler = MultiStepLR(optimizer, milestones = milestones, gamma = cfg.LRgamma)
+    scheduler = CycleDecayLR(optimizer, step_size = cfg.LRstep_size, cycle_size = cfg.LRcycle_size, gamma = cfg.LRgamma)
 
     if cfg.pretrain:
         log('>>>>> Load pre-trained model: {}'.format(cfg.pretrain_model_path))
@@ -264,6 +306,11 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
             torch.save(model.state_dict(), cfg.model_path)
             log('>>>>> Saving model at last epoch')
 
+    # output
+    y_train, pred_train = _test(device, model, train_loader)
+    y_test, pred_test = _test(device, model, val_loader)
+    output(y_train, pred_train, y_test, pred_test)
+
     log('>>>>> Training Complete! Start Testing...')
 
     # create model and load weights from best checkpoint
@@ -273,7 +320,8 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
         model.load_state_dict(torch.load(cfg.pretrain_model_path))
 
     # test
-    test(device, model, test_loader, criterion)
+    if cfg.have_test:
+        test(device, model, test_loader, criterion)
 
     # predict
     if cfg.if_predict:
