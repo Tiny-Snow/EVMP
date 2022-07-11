@@ -228,12 +228,12 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     # lr scheduler
     # scheduler = StepLR(optimizer, cfg.LRstep_size, cfg.LRgamma)
     now_epoch = cfg.LRstep_size
-    eopch_step = cfg.LRstep_size
+    epoch_step = cfg.LRstep_size
     milestones = []
     while now_epoch <= cfg.num_epoch:
         milestones.append(now_epoch)
-        eopch_step = int(eopch_step * cfg.LRstep_alpha)
-        now_epoch += eopch_step
+        epoch_step = int(epoch_step * cfg.LRstep_alpha)
+        now_epoch += epoch_step
     scheduler = MultiStepLR(optimizer, milestones = milestones, gamma = cfg.LRgamma)
 
     if cfg.pretrain:
