@@ -59,7 +59,7 @@ def one_hot(index, length):
 
 def onehot_encode(promoter):
     '''
-    one-hot encoding for promoter of length `max_base_len`
+    one-hot encoding for promoter of length `seq_len`
     one-hot encode element: B, A, T, C, G
     '''
     vocab = {'B': 0, 'A': 1, 'G': 2, 'C': 3, 'T': 4}

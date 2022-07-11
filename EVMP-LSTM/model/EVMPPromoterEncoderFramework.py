@@ -73,7 +73,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         x.var       variation index sequence
         '''
         base, var = x['base'].float().to(self.device), x['var'].float().to(self.device)
-        # base: [bacth_size, max_base_len, 5] ->  [bacth_size, base_embed_size]   
+        # base: [bacth_size, seq_len, 5] ->  [bacth_size, base_embed_size]   
         o, (h, base_embedding) = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size()[1], -1])
         # var: [bacth_size, seq_len] (index of var) -> [bacth_size, max_variation, var_embed_size]
