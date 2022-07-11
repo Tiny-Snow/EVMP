@@ -95,7 +95,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         base, var = \
             x['base'].float().to(self.device), x['var'].float().to(self.device)
         
-        # base: [bacth_size, seq_len, 5] ->  [bacth_size, seq_len, base_embed_size]  
+        # base
         base_embedding = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size(0), -1])
         # var
