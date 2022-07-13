@@ -90,7 +90,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         base_embedding = self.base_embed(base)
         base_embedding = base_embedding.view([base_embedding.size(0), -1])
         
-        # var: [bacth_size, num_var, mer * 5] -> [bacth_size, num_var, var_embed_size * num_var]
+        # var: [bacth_size, num_var, mer * 5] -> [bacth_size, num_var, var_embed_size]
         var = self.var_pos(var, index)
         var = torch.cat([var, torch.zeros(list(var.size()[: -1]) + [self.var_embed_size - var.size(-1)]).to(self.device)], dim = -1)
         var_embedding = self.var_embed(var)
