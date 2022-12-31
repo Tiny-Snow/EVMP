@@ -3,19 +3,22 @@
 This repository contains the code for the paper *EVMP: Enhancing machine learning models for synthetic promoter strength prediction by Extended-Vision-Mutant-Priority framework*. The paper is available at [https://doi.org/10.1101/2022.10.15.512354](https://doi.org/10.1101/2022.10.15.512354). EVMP is a framework for synthetic promoter strength prediction, including a series of machine learning models, a set of experiments and the benchmark.
 # Instructions
 ## Code Structure
-* `data/` This folder contains `synthetic_promoter.csv`, which contains the data for the problem. 
+* `data/` This folder contains synthetic promoters like `synthetic_promoter.csv`. 
 * `model/` The code for EVMP Framework.
 * `output/` The output of the experiments, including visualized results.
 * `save/` The saved models and logs.
 * `utils/` The utility functions, including training, loading data, plot and learning rate adjustment.
 * `config.py` The configuration file. Change the parameters in this file to change the experiment settings.
 * `main.py` The main file. Run this file to run the experiments.
-* `plot.py` The plotting functions.
 ## Dependencies
 Required dependencies:
+* `python` == 3.7.0
 * `torch` == 1.10.2+cu113
+* `sklearn` == 0.0
 * `numpy` == 1.19.0
 * `matplotlib` == 3.5.2
+* `scipy` == 1.4.1
+* `tqdm` == 4.54.1
 
 
 # Usage
@@ -46,45 +49,43 @@ In order to run the experiments, you need to change the parameters in the `confi
 >>>>> Not use predict set
 >>>>> DEVICE: cuda
 >>>>> Start  Training...
-[001/10000] Train MAE Loss: 0.799914 | Val MAE loss: 0.496356
->>>>> Saving model with loss 0.496356
+[001/10000] Train MAE Loss: 0.504992 | Val MAE loss: 0.350093
+>>>>> Saving model with loss 0.350093
 Learning rate -> 1.000000e-04
-[002/10000] Train MAE Loss: 0.446956 | Val MAE loss: 0.352508
->>>>> Saving model with loss 0.352508
+[002/10000] Train MAE Loss: 0.375110 | Val MAE loss: 0.377652
 Learning rate -> 1.000000e-04
-[003/10000] Train MAE Loss: 0.352595 | Val MAE loss: 0.419848
+[003/10000] Train MAE Loss: 0.364994 | Val MAE loss: 0.345428
+>>>>> Saving model with loss 0.345428
 Learning rate -> 1.000000e-04
-[004/10000] Train MAE Loss: 0.320540 | Val MAE loss: 0.306786
->>>>> Saving model with loss 0.306786
+[004/10000] Train MAE Loss: 0.349199 | Val MAE loss: 0.346701
 Learning rate -> 1.000000e-04
-[005/10000] Train MAE Loss: 0.299916 | Val MAE loss: 0.318937
+[005/10000] Train MAE Loss: 0.332358 | Val MAE loss: 0.288683
+>>>>> Saving model with loss 0.288683
 Learning rate -> 1.000000e-04
-[006/10000] Train MAE Loss: 0.281108 | Val MAE loss: 0.261879
->>>>> Saving model with loss 0.261879
+[006/10000] Train MAE Loss: 0.327650 | Val MAE loss: 0.289182
 Learning rate -> 1.000000e-04
-[007/10000] Train MAE Loss: 0.265449 | Val MAE loss: 0.351830
+[007/10000] Train MAE Loss: 0.314388 | Val MAE loss: 0.288350
+>>>>> Saving model with loss 0.288350
 Learning rate -> 1.000000e-04
-[008/10000] Train MAE Loss: 0.259729 | Val MAE loss: 0.266807
+[008/10000] Train MAE Loss: 0.308514 | Val MAE loss: 0.359426
 Learning rate -> 1.000000e-04
-[009/10000] Train MAE Loss: 0.246711 | Val MAE loss: 0.286405
+[009/10000] Train MAE Loss: 0.317545 | Val MAE loss: 0.273503
+>>>>> Saving model with loss 0.273503
 Learning rate -> 1.000000e-04
-[010/10000] Train MAE Loss: 0.248280 | Val MAE loss: 0.261508
->>>>> Saving model with loss 0.261508
-Learning rate -> 1.000000e-04
-[011/10000] Train MAE Loss: 0.239651 | Val MAE loss: 0.239710
->>>>> Saving model with loss 0.239710
-Learning rate -> 1.000000e-04
-[012/10000] Train MAE Loss: 0.231826 | Val MAE loss: 0.278435
-Learning rate -> 1.000000e-04
-[013/10000] Train MAE Loss: 0.225443 | Val MAE loss: 0.227194
->>>>> Saving model with loss 0.227194
+[010/10000] Train MAE Loss: 0.312983 | Val MAE loss: 0.265739
+>>>>> Saving model with loss 0.265739
+Learning rate -> 1.000000e-05
+......
+[319/10000] Train MAE Loss: 0.159014 | Val MAE loss: 0.180608
+>>>>> Saving model with loss 0.180608
+Learning rate -> 1.000000e-05
 ......
 >>>>> End with signal!
 >>>>> Training Complete! Start Testing...
 Final Model: 
-    train MAE: 0.160957, train R2: 0.78
-    valid MAE: 0.202348, valid R2: 0.73
-    test  MAE: 0.183557, test  R2: 0.79
+    train MAE: 0.126674, train R2: 0.83
+    valid MAE: 0.180608, valid R2: 0.76
+    test  MAE: 0.184852, test  R2: 0.77
 ```
 To use the pretrain model, you need to change the `pretrain` parameter.
 

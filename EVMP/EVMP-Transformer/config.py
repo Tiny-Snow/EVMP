@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 #------------------------ info ------------------------#
-info = ''
+info = 'k_5'
 pretrain_info = ''
 
 #------------------------ data ------------------------#
@@ -19,7 +19,7 @@ val_ratio = 0.10        # validation set ratio (for synthetic promoter)
 test_ratio = 0.10       # test set ratio (for synthetic promoter)
 seq_len = 85            # max base promoter size
 num_var = 10            # max variation size
-mer = 8                 # k-mer for Extended Vision
+mer = 5                 # k-mer for Extended Vision
 
 #------------------------ train ------------------------#
 if_test = False         # if test
