@@ -12,13 +12,18 @@ This repository contains the code for the paper *EVMP: Enhancing machine learnin
 * `main.py` The main file. Run this file to run the experiments.
 ## Dependencies
 Required dependencies:
-* `python` == 3.7.0
-* `torch` == 1.10.2+cu113
-* `sklearn` == 0.0
-* `numpy` == 1.19.0
-* `matplotlib` == 3.5.2
-* `scipy` == 1.4.1
-* `tqdm` == 4.54.1
+
+```
+python==3.7.0
+torch==1.10.2+cu113
+sklearn==0.0
+numpy==1.19.0
+matplotlib==3.5.2
+scipy==1.4.1
+tqdm==4.54.1
+```
+
+
 
 
 # Usage
