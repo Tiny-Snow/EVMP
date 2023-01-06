@@ -112,4 +112,4 @@ This part is used to collect known issues.
 
 - When comparing the effect between EVMP models, or between EVMP and non-EVMP models, be careful NOT to modify the random seed in main.py! 
 
-  A better solution is to generate fixings before training and then remove rand operations from utils/data_loader.py. There are currently no plans to modify the source code in the repository.
+  A better solution is to generate fixing datasets before training and then remove rand operations from utils/data_loader.py. There are currently no plans to modify the source code in the repository.
