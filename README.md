@@ -27,6 +27,8 @@ tqdm==4.54.1
 
 # Usage
 ## Data Preparation
+ALL the data is in `csv` format.
+
 Prepare the training data at `synthetic_data_path` and  `wild_data_path` in the format of:
 ```
 ID, Mother Promoter, Promoter, ACT
