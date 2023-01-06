@@ -25,8 +25,6 @@ tqdm==4.54.1
 ```
 
 
-
-
 # Usage
 ## Data Preparation
 Prepare the training data at `synthetic_data_path` and  `wild_data_path` in the format of:
@@ -95,7 +93,7 @@ Final Model:
 ```
 To use the pretrain model, you need to change the `pretrain` parameter.
 
-### Save model immediately
+## Save model immediately
 Instead of the Ctrl+C canceling, `signal.txt` is used to control the saving process. During the training process, a model is saved while its Val MAE loss is the lowest. Once you set the `train` in `signal.txt` to `false`, the model will be saved and the training process will be terminated after the epoch ends.
 
 
@@ -106,3 +104,10 @@ python main.py
 ```
 The pretrained model will be used to predict the strength, and the output will be saved in `predict_result_path`, which can be modified in the `config.py` file.
 
+# Issues
+
+This part is used to collect known issues. 
+
+- When comparing the effect between EVMP models, or between EVMP and non-EVMP models, be careful NOT to modify the random seed in main.py! 
+
+  A better solution is to generate fixings before training and then remove rand operations from utils/data_loader.py. There are currently no plans to modify the source code in the repository.
