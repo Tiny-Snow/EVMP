@@ -15,13 +15,15 @@ This repository contains the code for the paper *EVMP: Enhancing machine learnin
 Required dependencies:
 
 ```
-python==3.7.0
-torch==1.10.2+cu113
-sklearn==0.0
-numpy==1.19.0
+joblib==0.17.0
 matplotlib==3.5.2
+numpy==1.19.0
+pandas==1.1.5
+scikit_learn==1.2.0
 scipy==1.4.1
+torch==1.10.2+cu113
 tqdm==4.54.1
+xgboost==1.6.0
 ```
 
 
