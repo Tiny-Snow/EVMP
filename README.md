@@ -5,10 +5,12 @@ This repository contains the code for the paper *EVMP: Enhancing machine learnin
 # Instructions
 ## Code Structure
 * `data/` This folder contains synthetic promoters like `synthetic_promoter.csv`. 
+
 *New!* This folder is needed to be mannually created, and the sample data can be found from `Dataset/`.
 * `model/` The code for EVMP Framework.
 * `output/` The output of the experiments, including visualized results.
 * `save/` The saved models and logs.
+
 This folder is needed to be mannually created.
 * `utils/` The utility functions, including training, loading data, plot and learning rate adjustment.
 * `config.py` The configuration file. Change the parameters in this file to change the experiment settings.
