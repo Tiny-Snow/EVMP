@@ -3,6 +3,28 @@
 This repository contains the code for the paper *EVMP: Enhancing machine learning models for synthetic promoter strength prediction by Extended Vision Mutant Priority framework*. The paper is available at [https://doi.org/10.1101/2022.10.15.512354](https://doi.org/10.1101/2022.10.15.512354). EVMP is a framework for synthetic promoter strength prediction, including a series of machine learning models, a set of experiments and the benchmark.
 
 # Instructions
+
+## File Structure
+* The `Dataset/` folder contains the sample data, and the sample data should be manually moved to the `data/` folder mentioned below.
+* The `EVMP/` folder contains the code for all the models. The following `Code Structure` refers to the structure of these folders:
+```
+Baseline-1DCNN-3L
+Baseline-GBDT
+Baseline-LSTM
+Baseline-RF
+Baseline-SVM
+Baseline-Transformer
+Baseline-XGBoost
+EVMP-1DCNN-3L
+EVMP-GBDT
+EVMP-LSTM
+EVMP-RF
+EVMP-SVM
+EVMP-Transformer
+EVMP-XGBoost
+```
+* `Illustration of model/` folder contains the images that show the results of all the models.
+
 ## Code Structure
 * `data/` This folder contains synthetic promoters like `synthetic_promoter.csv`. 
 
@@ -11,7 +33,7 @@ This repository contains the code for the paper *EVMP: Enhancing machine learnin
 * `output/` The output of the experiments, including visualized results.
 * `save/` The saved models and logs.
 
-This folder is needed to be mannually created.
+** This folder is needed to be mannually created. **
 * `utils/` The utility functions, including training, loading data, plot and learning rate adjustment.
 * `config.py` The configuration file. Change the parameters in this file to change the experiment settings.
 * `main.py` The main file. Run this file to run the experiments.
