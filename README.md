@@ -123,8 +123,8 @@ Final Model:
 ```
 To use the pretrain model, you need to change the `pretrain` parameter.
 
-## Save model immediately
-Instead of the Ctrl+C canceling, `signal.txt` is used to control the saving process. During the training process, a model is saved while its Val MAE loss is the lowest. Once you set the `train` in `signal.txt` to `false`, the model will be saved and the training process will be terminated after the epoch ends.
+## Early Stop
+Instead of the Ctrl+C canceling, we use `signal.txt` to control the saving process. During the training process, the program automatically saves the best models according to the Val MAE loss. You may manually set the `train` in `signal.txt` to `false` to make it stop at the end of the current epoch and save the model parameters.
 
 
 ## Testing
@@ -138,6 +138,3 @@ The pretrained model will be used to predict the strength, and the output will b
 
 This part is used to collect known issues. 
 
-- When comparing the effect between EVMP models, or between EVMP and non-EVMP models, be careful NOT to modify the random seed in main.py! 
-
-  A better solution is to generate fixing datasets before training and then remove rand operations from utils/data_loader.py. There are currently no plans to modify the source code in the repository.
