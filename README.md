@@ -69,7 +69,15 @@ ID, Mother Promoter, Promoter
 ```
 As the testing data is only used to predict the strength, the `ACT` column is not needed. 
 ## Training
-Run the following command to train the model:
+Make sure that in `config.py`:
+```
+`if_test` = False
+```
+in `signal.txt`:
+```
+{'train': True}
+```
+You may set `pretrain = True` to use saved model specified at `pretrain_model_path` in `config.py`. Run the following command to train the model:
 ```
 python main.py
 ```
@@ -128,11 +136,22 @@ Instead of the Ctrl+C canceling, we use `signal.txt` to control the saving proce
 
 
 ## Testing
-Set the `if_test` and `pretrain` parameter to true in the `config.py` file, then run the following command to test the model:
+Make sure that in `config.py`:
+```
+`if_test` = False
+```
+in `signal.txt`:
+```
+train = False
+```
+Set `pretrain = True` to use saved model specified at `pretrain_model_path` in `config.py`.
+Run the following command to test the model:
 ```
 python main.py
 ```
-The pretrained model will be used to predict the strength, and the output will be saved in `predict_result_path`, which can be modified in the `config.py` file.
+The pretrained model will be used to predict the strength.
+
+Also, you may set `if_predict = True` in `config.py` to run prediction. The output will be saved in `predict_result_path`, which can be modified in the `config.py` file.
 
 # Issues
 
