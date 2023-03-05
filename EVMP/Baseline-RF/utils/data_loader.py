@@ -38,16 +38,46 @@ def onehot_encode(promoter):
 
 
 def load_data():
-    '''load train data and test data'''
-    data, train_input, train_value = [], [], []
+    '''
+    Load train/val/test/predict data
+    '''
+    # load train/val data
+    wild_promoter = {}
+    synthetic_promoter = []
+    with open(cfg.wild_data_path, 'r') as f:
+        reader = csv.reader(f)
+        next(reader, None)
+        for i, [ID, mopromoter, promoter, act] in enumerate(reader):
+            wild_promoter[mopromoter] = {'Mopromoter': mopromoter, 'promoter': promoter, 'act': math.log10(float(act))}
     with open(cfg.synthetic_data_path, 'r') as f:
         reader = csv.reader(f)
-        next(reader)
-        # load data
-        for i, [ID,  mopromoter, promoter, act] in enumerate(reader):
-            data.append([promoter, act])
-        random.shuffle(data)
-        for promoter, act in data:
-            train_input.append(onehot_encode(promoter))
-            train_value.append(math.log10(float(act)))
-    return np.array(train_input), np.array(train_value)
+        next(reader, None)
+        for i, [ID, mopromoter, promoter, act] in enumerate(reader):
+            synthetic_promoter.append({'Mopromoter': mopromoter, 'promoter': promoter, 'act': math.log10(float(act))})
+
+    wilds = list(wild_promoter.values())
+    random.shuffle(wilds)
+    random.shuffle(synthetic_promoter)
+    
+    train_bases, train_acts = [], []
+    test_bases, test_acts   = [], []
+
+    # [test, train, valid]
+    test_percent = int(len(synthetic_promoter) * cfg.test_ratio)
+
+    for p in wilds:
+        train_bases.append(onehot_encode(p['promoter']))
+        train_acts.append(p['act'])
+
+    for p in synthetic_promoter[: test_percent]:
+        test_bases.append(onehot_encode(p['promoter']))
+        test_acts.append(p['act'])
+    for p in synthetic_promoter[test_percent: ]:
+        train_bases.append(onehot_encode(p['promoter']))
+        train_acts.append(p['act'])
+
+    return train_bases, train_acts, test_bases, test_acts
+
+    # TODO: load predict data
+
+

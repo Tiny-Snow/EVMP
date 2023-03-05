@@ -13,7 +13,7 @@ import config as cfg
 def line(x, A, B):
     return A * x + B
 
-def output(y_train, pred_train, y_valid, pred_valid, y_test, pred_test, file_name):
+def output(y_train, pred_train, y_valid, pred_valid, y_test, pred_test, file_name, idx = 0):
     '''
     Output the prediction result of the train / valid / test
     
@@ -55,7 +55,7 @@ def output(y_train, pred_train, y_valid, pred_valid, y_test, pred_test, file_nam
     plt.xlabel('True Value')
     plt.ylabel('Predict Value')
     plt.legend()
-    plt.savefig(cfg.save_fig)
+    plt.savefig(cfg.save_fig.replace('.pdf', '_C{}.pdf'.format(idx)))
 
     result = {
         'train': [train_MAE, train_r2], 

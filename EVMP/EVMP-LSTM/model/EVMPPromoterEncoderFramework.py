@@ -85,7 +85,7 @@ class EVMPPromoterEncoderFramework(nn.Module):
         return out
 
 
-def run(train_loader, val_loader, test_loader, predict_loader = None): 
+def run(train_loader, val_loader, test_loader, predict_loader = None, idx = 0):
     '''
     Train the model and test the data
     '''
@@ -130,7 +130,7 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
                     # if the model improves, save a checkpoint at this epoch
                     if val_loss < best_loss:
                         best_loss = val_loss
-                        torch.save(model.state_dict(), cfg.model_path)
+                        torch.save(model.state_dict(), cfg.model_path.replace('.ckpt', '_C{}.ckpt'.format(idx)))
                         log('>>>>> Saving model with loss {:.6f}'.format(best_loss/len(val_loader)))
                 else:
                     log('[{:03d}/{:03d}] Train Loss: {:3.6f}'.format(
@@ -143,14 +143,14 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
                 break
         # if not validating, save the last epoch
         if len(val_loader) == 0:
-            torch.save(model.state_dict(), cfg.model_path)
+            torch.save(model.state_dict(), cfg.model_path.replace('.ckpt', '_C{}.ckpt'.format(idx)))
             log('>>>>> Saving model at last epoch')
 
     log('>>>>> Training Complete! Start Testing...')
 
     # create model and load weights from best checkpoint
     if not cfg.if_test:
-        model.load_state_dict(torch.load(cfg.model_path))
+        model.load_state_dict(torch.load(cfg.model_path.replace('.ckpt', '_C{}.ckpt'.format(idx))))
     else:
         model.load_state_dict(torch.load(cfg.pretrain_model_path))
 
@@ -158,9 +158,9 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     y_train, pred_train = test(device, model, train_loader)
     y_valid, pred_valid = test(device, model, val_loader)
     y_test, pred_test = test(device, model, test_loader)
-    result = output(y_train, pred_train, y_valid, pred_valid, y_test, pred_test, file_name = 'EVMP-LSTM')
+    result = output(y_train, pred_train, y_valid, pred_valid, y_test, pred_test, file_name = 'EVMP-LSTM', idx = idx)
 
-    log("Final Model: ")
+    log("Final Model #{}: ".format(idx))
     log("    train MAE: {:3.6f}, train R2: {:.2f}".format(result['train'][0], result['train'][1]))
     log("    valid MAE: {:3.6f}, valid R2: {:.2f}".format(result['valid'][0], result['valid'][1]))
     log("    test  MAE: {:3.6f}, test  R2: {:.2f}".format(result['test'][0], result['test'][1]))
@@ -169,4 +169,6 @@ def run(train_loader, val_loader, test_loader, predict_loader = None):
     if cfg.if_predict:
         log('>>>>> Testing Complete! Start Predicting...')
         pred = predict(device, model, predict_loader)
-        save_predict(pred)
+        save_predict(pred, idx)
+    
+    return result['train'][0], result['train'][1], result['valid'][0], result['valid'][1], result['test'][0], result['test'][1]

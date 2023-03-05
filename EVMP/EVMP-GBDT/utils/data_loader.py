@@ -105,16 +105,29 @@ def load_data():
     wilds = list(wild_promoter.values())
     random.shuffle(wilds)
     random.shuffle(synthetic_promoter)
-    bases, vars, indices, acts = [], [], [], []
+
+    train_bases, train_vars, train_acts  = [], [], []
+    test_bases, test_vars, test_acts      = [], [], []
+
+    # [test, train, valid]
+    test_percent = int(len(synthetic_promoter) * cfg.test_ratio)
 
     for p in wilds:
-        bases.append(onehot_encode(p['Mopromoter']))
-        vars.append(var_mask(p['Mopromoter'], p['promoter']))
-        acts.append(p['act'])
-    for p in synthetic_promoter:
-        bases.append(onehot_encode(p['Mopromoter']))
-        vars.append(var_mask(p['Mopromoter'], p['promoter']))
-        acts.append(p['act'])
+        train_bases.append(onehot_encode(p['Mopromoter']))
+        train_vars.append(var_mask(p['Mopromoter'], p['promoter']))
+        train_acts.append(p['act'])
+    for p in synthetic_promoter[: test_percent]:
+        test_bases.append(onehot_encode(p['Mopromoter']))
+        test_vars.append(var_mask(p['Mopromoter'], p['promoter']))
+        test_acts.append(p['act'])
+    for p in synthetic_promoter[test_percent: ]:
+        train_bases.append(onehot_encode(p['Mopromoter']))
+        train_vars.append(var_mask(p['Mopromoter'], p['promoter']))
+        train_acts.append(p['act'])
 
-    return pack_base_and_var(bases, vars, acts)
+    train_input, train_value = pack_base_and_var(train_bases, train_vars, train_acts)
+    test_input, test_value   = pack_base_and_var(test_bases, test_vars, test_acts)
 
+    return train_input, train_value, test_input, test_value
+
+    # TODO: load predict data

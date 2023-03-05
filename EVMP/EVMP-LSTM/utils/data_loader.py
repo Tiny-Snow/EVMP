@@ -120,12 +120,10 @@ def load_data():
     random.shuffle(synthetic_promoter)
     
     train_bases, train_vars, train_acts  = [], [], []
-    val_bases, val_vars, val_acts        = [], [], []
     test_bases, test_vars, test_acts     = [], [], []
 
     # [test, train, valid]
-    val_percent = int(len(synthetic_promoter) * (1 - cfg.val_ratio)) // cfg.batch_size * cfg.batch_size
-    test_percent = int(len(synthetic_promoter) * (cfg.test_ratio)) // cfg.batch_size * cfg.batch_size
+    test_percent = int(len(synthetic_promoter) * cfg.test_ratio)
 
     for p in wilds:
         train_bases.append(onehot_encode(p['Mopromoter']))
@@ -138,23 +136,15 @@ def load_data():
             test_bases.append(onehot_encode(p['Mopromoter']))
             test_vars.append(var_encoding)
             test_acts.append(p['act'])
-    for p in synthetic_promoter[test_percent: val_percent]:
+    for p in synthetic_promoter[test_percent: ]:
         var_encoding = var_encode(p['Moindex'], p['Mopromoter'], p['promoter'])
         if not var_encoding is None:
             train_bases.append(onehot_encode(p['Mopromoter']))
             train_vars.append(var_encoding)
             train_acts.append(p['act'])
-    for p in synthetic_promoter[val_percent: ]:
-        var_encoding = var_encode(p['Moindex'], p['Mopromoter'], p['promoter'])
-        if not var_encoding is None:
-            val_bases.append(onehot_encode(p['Mopromoter']))
-            val_vars.append(var_encoding)
-            val_acts.append(p['act'])
 
     train_set       = VarPromoterDataset(train_bases, train_vars, train_acts)
     train_loader    = DataLoader(train_set, batch_size = cfg.batch_size, shuffle = True, drop_last = False)
-    val_set         = VarPromoterDataset(val_bases, val_vars, val_acts)
-    val_loader      = DataLoader(val_set, batch_size = 1, shuffle = False, drop_last = False)
     test_set        = VarPromoterDataset(test_bases, test_vars, test_acts)
     test_loader     = DataLoader(test_set, batch_size = 1, shuffle = False, drop_last = False)
 
@@ -180,5 +170,19 @@ def load_data():
     else:
         predict_loader = None
 
-    return train_loader, val_loader, test_loader, predict_loader
+    return train_loader, test_loader, predict_loader
+
+
+def train_valid_spilt(train_loader, valid_ratio = cfg.val_ratio):
+    '''
+    split data into train and valid
+    '''
+    train_set = train_loader.dataset
+    train_size = len(train_set)
+    valid_size = int(train_size * valid_ratio)
+    train_size = train_size - valid_size
+    train_set, valid_set = torch.utils.data.random_split(train_set, [train_size, valid_size])
+    train_loader = DataLoader(train_set, batch_size = cfg.batch_size, shuffle = True, drop_last = False)
+    valid_loader = DataLoader(valid_set, batch_size = cfg.batch_size, shuffle = True, drop_last = False)
+    return train_loader, valid_loader
 

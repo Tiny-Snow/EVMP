@@ -8,8 +8,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 #------------------------ info ------------------------#
-info = 'k_5'
+info = '2023'
 pretrain_info = ''
+seed = 2023
+fold = 5
 
 #------------------------ data ------------------------#
 data_root = BASE_DIR + '/data/'
@@ -28,7 +30,7 @@ pretrain_root = BASE_DIR + '/pretrain'
 pretrain_model_path = pretrain_root + '/model_{}.ckpt'.format(pretrain_info)    # pretrain model 
 lr = 0.0001             # init learning rate
 batch_size = 16         # batch size
-num_epoch = 10000       # max number of epoch
+num_epoch = 500         # max number of epoch
 weight_decay = 1e-5     # L2 regularization
 LRstep_size = 10        # StepLR step size
 LRcycle_size = 3        # StepLR cycle size

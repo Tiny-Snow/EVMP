@@ -5,6 +5,10 @@
 
 import os
 import config as cfg
+import random
+import numpy as np
+import torch
+
 
 class Signal:
     '''Running signal to control training process'''
@@ -32,3 +36,20 @@ def log(message):
         with open(cfg.log_file, 'w') as f:
             f.write(message + '\n')
     print(message)
+
+
+def create_dir(path):
+    '''Create directory if not exists'''
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+def seed_all(seed = 2023):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+    

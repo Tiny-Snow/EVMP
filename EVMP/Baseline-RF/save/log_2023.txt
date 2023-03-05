@@ -1,0 +1,50 @@
+>>>>> Loading data ...
+>>>>> Run #0 ...
+>>>>> Size of training set: 2844
+>>>>> Size of validation set: 316
+>>>>> Size of test set: 351
+Final Model #0: 
+    train MAE: 0.083322, train R2: 0.95
+    valid MAE: 0.216542, valid R2: 0.61
+    test  MAE: 0.224209, test  R2: 0.66
+----------------------------------------------------------------------
+>>>>> Run #1 ...
+>>>>> Size of training set: 2844
+>>>>> Size of validation set: 316
+>>>>> Size of test set: 351
+Final Model #1: 
+    train MAE: 0.081532, train R2: 0.95
+    valid MAE: 0.228531, valid R2: 0.60
+    test  MAE: 0.225973, test  R2: 0.64
+----------------------------------------------------------------------
+>>>>> Run #2 ...
+>>>>> Size of training set: 2844
+>>>>> Size of validation set: 316
+>>>>> Size of test set: 351
+Final Model #2: 
+    train MAE: 0.080765, train R2: 0.95
+    valid MAE: 0.228813, valid R2: 0.62
+    test  MAE: 0.229941, test  R2: 0.65
+----------------------------------------------------------------------
+>>>>> Run #3 ...
+>>>>> Size of training set: 2844
+>>>>> Size of validation set: 316
+>>>>> Size of test set: 351
+Final Model #3: 
+    train MAE: 0.082260, train R2: 0.95
+    valid MAE: 0.220449, valid R2: 0.66
+    test  MAE: 0.225729, test  R2: 0.65
+----------------------------------------------------------------------
+>>>>> Run #4 ...
+>>>>> Size of training set: 2844
+>>>>> Size of validation set: 316
+>>>>> Size of test set: 351
+Final Model #4: 
+    train MAE: 0.080479, train R2: 0.95
+    valid MAE: 0.242041, valid R2: 0.57
+    test  MAE: 0.225022, test  R2: 0.66
+----------------------------------------------------------------------
+>>>>> Mean metric:
+>>>>> Train MAE: 0.0817, Train R2: 0.9487
+>>>>> Valid MAE: 0.2273, Valid R2: 0.6121
+>>>>> Test MAE: 0.2262, Test R2: 0.6495

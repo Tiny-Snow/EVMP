@@ -72,12 +72,12 @@ def predict(device, model, predict_loader):
     return predicts
 
 
-def save_predict(predicts):
+def save_predict(predicts, idx = 0):
     '''write predict value to csv'''
-    if os.path.exists(cfg.predict_result_path):
-        os.remove(cfg.predict_result_path)
-    with open(cfg.predict_result_path, 'w', newline = '') as f:
+    if os.path.exists(cfg.predict_result_path.replace('.csv', '_C{}.csv'.format(idx))):
+        os.remove(cfg.predict_result_path.replace('.csv', '_C{}.csv'.format(idx)))
+    with open(cfg.predict_result_path.replace('.csv', '_C{}.csv'.format(idx)), 'w', newline = '') as f:
         writer = csv.writer(f)
         writer.writerow(['ID', 'Pred'])
         for i, p in enumerate(predicts):
-            writer.writerow([i, p]) 
+            writer.writerow([i, p])

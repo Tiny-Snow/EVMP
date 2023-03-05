@@ -8,14 +8,12 @@ This repository contains the code for the paper *EVMP: Enhancing machine learnin
 * The `Dataset/` folder contains the sample data, and the sample data should be manually moved to the `data/` folder mentioned below.
 * The `EVMP/` folder contains the code for all the models. The following `Code Structure` refers to the structure of these folders:
 ```
-Baseline-1DCNN-3L
 Baseline-GBDT
 Baseline-LSTM
 Baseline-RF
 Baseline-SVM
 Baseline-Transformer
 Baseline-XGBoost
-EVMP-1DCNN-3L
 EVMP-GBDT
 EVMP-LSTM
 EVMP-RF
@@ -38,18 +36,20 @@ EVMP-XGBoost
 * `config.py` The configuration file. Change the parameters in this file to change the experiment settings.
 * `main.py` The main file. Run this file to run the experiments.
 ## Dependencies
-Required dependencies:
+Required dependencies (using `python 3.7` ):
 
 ```
+pytorch==1.10.1
+torchvision==0.11.2
+cudatoolkit==11.3.1
 joblib==0.17.0
-matplotlib==3.5.2
-numpy==1.19.0
-pandas==1.1.5
-scikit_learn==1.2.0
-scipy==1.4.1
-torch==1.10.2+cu113
-tqdm==4.54.1
-xgboost==1.6.0
+matplotlib==3.5.3
+scipy==1.7.3
+tqdm==4.64.1
+xgboost==1.5.1
+scikit-learn==1.0.2
+numpy==1.21.5
+pandas==1.3.5
 ```
 
 
@@ -130,6 +130,8 @@ Final Model:
     test  MAE: 0.184852, test  R2: 0.77
 ```
 To use the pretrain model, you need to change the `pretrain` parameter.
+
+Note: The training time does not exceed 12 hours when training for no more than 500 epochs on a dataset of thousands of promoters.
 
 ## Early Stop
 Instead of the Ctrl+C canceling, we use `signal.txt` to control the saving process. During the training process, the program automatically saves the best models according to the Val MAE loss. You may manually set the `train` in `signal.txt` to `false` to make it stop at the end of the current epoch and save the model parameters.
