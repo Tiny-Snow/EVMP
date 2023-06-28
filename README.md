@@ -1,6 +1,6 @@
 # EVMP
 
-This repository contains the code for the paper *EVMP: Enhancing machine learning models for synthetic promoter strength prediction by Extended Vision Mutant Priority framework*. The paper is available at [https://doi.org/10.1101/2022.10.15.512354](https://doi.org/10.1101/2022.10.15.512354). EVMP is a framework for synthetic promoter strength prediction, including a series of machine learning models, a set of experiments and the benchmark.
+This repository contains the code for the paper *EVMP: Enhancing machine learning models for synthetic promoter strength prediction by Extended Vision Mutant Priority framework*. The paper is available at [https://doi.org/10.3389/fmicb.2023.1215609](https://doi.org/10.3389/fmicb.2023.1215609). EVMP is a framework for synthetic promoter strength prediction, including a series of machine learning models, a set of experiments and the benchmark.
 
 # Instructions
 
